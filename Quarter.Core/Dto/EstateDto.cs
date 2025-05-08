@@ -11,10 +11,10 @@ namespace Quarter.Core.Dto
     {
         public int Id { get; set; }
         public int EstateTypeId { get; set; }  // نوع العقار (شقة، فيلا، إلخ)
-        public string EstateTypeName { get; set; }  // العلاقة مع النوع
+        public string?EstateTypeName { get; set; } // العلاقة مع النوع
 
         public int EstateLocationId { get; set; }  // موقع)
-        public string EstateLocationName { get; set; }  // العلاقة مع الموقع
+        public string? EstateLocationName { get; set; }  // العلاقة مع الموقع
         public string Name { get; set; }
         public int Price { get; set; }  // السعر
         public double SquareMeters { get; set; }  // المساحة بالمتر

@@ -22,7 +22,7 @@ namespace Quarter.APIS.Controllers
         {
             _EstateService = EstateService;
         }
-        [Authorize(AuthenticationSchemes= JwtBearerDefaults.AuthenticationScheme)]
+     
         [ProducesResponseType(typeof(PaginationResponse<EstateDto>), StatusCodes.Status200OK)]
         [HttpGet]
        
@@ -50,7 +50,7 @@ namespace Quarter.APIS.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof( EstateDto ), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(EstateDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductById(int? id)
@@ -60,5 +60,30 @@ namespace Quarter.APIS.Controllers
             if (result is null) return NotFound(new ApiErrorResponse(404));
             return Ok(result);
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateEstate([FromBody] EstateDto estateDto)
+        {
+            var created = await _EstateService.CreateEstateAsync(estateDto);
+            return CreatedAtAction(nameof(GetProductById), new { id = created.Id }, created);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateEstate(int id, [FromBody] EstateDto estateDto)
+        {
+            var updated = await _EstateService.UpdateEstateAsync(id, estateDto);
+            if (!updated) return NotFound();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEstate(int id)
+        {
+            var deleted = await _EstateService.DeleteEstateAsync(id);
+            if (!deleted) return NotFound();
+            return NoContent();
+        }
+
+        
+
     }
 }
+

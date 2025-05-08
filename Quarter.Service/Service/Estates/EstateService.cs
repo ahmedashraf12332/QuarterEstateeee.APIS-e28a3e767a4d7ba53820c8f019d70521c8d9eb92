@@ -73,5 +73,48 @@ namespace Quarter.Service.Service.Estates
         {
             return await GetProductById(id); // Reusing existing method
         }
+        public async Task<EstateDto> CreateEstateAsync(EstateDto estateDto)
+        {
+            var estate = new Estate
+            {
+                EstateTypeId = estateDto.EstateTypeId,
+                EstateLocationId = estateDto.EstateLocationId,
+                Name = estateDto.Name,
+                Price = estateDto.Price,
+                SquareMeters = estateDto.SquareMeters,
+                Description = estateDto.Description,
+                Images = estateDto.Images,
+                NumOfBedrooms = estateDto.NumOfBedrooms,
+                NumOfBathrooms = estateDto.NumOfBathrooms,
+                NumOfFloor = estateDto.NumOfFloor
+            };
+
+            await _unitOfWork.Repository<Estate, int>().AddAsync(estate);
+            await _unitOfWork.CompleteAsync();
+
+            return _mapper.Map<EstateDto>(estate);
+        }
+
+        public async Task<bool> UpdateEstateAsync(int id, EstateDto estateDto)
+        {
+            var existing = await _unitOfWork.Repository<Estate, int>().GetAsync(id);
+            if (existing == null) return false;
+
+            _mapper.Map(estateDto, existing);
+            _unitOfWork.Repository<Estate, int>().Update(existing);
+            await _unitOfWork.CompleteAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteEstateAsync(int id)
+        {
+            var existing = await _unitOfWork.Repository<Estate, int>().GetAsync(id);
+            if (existing == null) return false;
+
+            _unitOfWork.Repository<Estate, int>().Delete(existing);
+            await _unitOfWork.CompleteAsync();
+            return true;
+        }
+
     }
 }
