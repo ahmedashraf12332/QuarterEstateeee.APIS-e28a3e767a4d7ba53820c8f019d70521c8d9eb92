@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('serviceConnectorResourceGroupName')]/providers/Microsoft.Web/sites/QuarterEstates/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDefaultConnection12_A7FA4CF928",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/tested12/databases/ddd",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DefaultConnection12",
+      "dynamicId": null
+    }
+  }
+}

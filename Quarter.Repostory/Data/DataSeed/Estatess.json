@@ -1,0 +1,132 @@
+[
+    {
+        
+        "Name": "Luxury Apartment in New Cairo",
+        "Price": 1487038,
+        "SquareMeters": 107,
+        "Description": "A beautiful property for sale in Cairo",
+        "Images": "image/Estate/1.jpg",
+        "NumOfBedrooms": 3,
+        "NumOfBathrooms": 1,
+        "NumOfFloor": 4,
+        "EstateTypeId": 2,
+        "EstateLocationId": 9
+    },
+    {
+       
+        "Name": "Luxury Apartment in New Cairo",
+        "Price": 4053351,
+        "SquareMeters": 219,
+        "Description": "A beautiful property for sale in Cairo",
+        "Images": "image/Estate/2.jpg",
+        "NumOfBedrooms": 1,
+        "NumOfBathrooms": 1,
+        "NumOfFloor": 1,
+        "EstateTypeId": 1,
+        "EstateLocationId": 4
+    },
+    {
+       
+        "Name": "Luxury Apartment in New Cairo",
+        "Price": 2941269,
+        "SquareMeters": 142,
+        "Description": "A beautiful property for sale in Cairo",
+        "Images": "image/Estate/3.jpg",
+        "NumOfBedrooms": 2,
+        "NumOfBathrooms": 2,
+        "NumOfFloor": 5,
+        "EstateTypeId": 3,
+        "EstateLocationId": 1
+    },
+    {
+        
+        "Name": "Luxury Apartment in New Cairo",
+        "Price": 3487593,
+        "SquareMeters": 154,
+        "Description": "A beautiful property for sale in Cairo",
+        "Images": "image/Estate/4.jpg",
+        "NumOfBedrooms": 1,
+        "NumOfBathrooms": 1,
+        "NumOfFloor": 4,
+        "EstateTypeId": 3,
+        "EstateLocationId": 8
+    },
+    {
+        
+        "Name": "Luxury Apartment in New Cairo",
+        "Price": 4278578,
+        "SquareMeters": 92,
+        "Description": "A beautiful property for sale in Cairo",
+        "Images": "image/Estate/5.jpg",
+        "NumOfBedrooms": 3,
+        "NumOfBathrooms": 3,
+        "NumOfFloor": 1,
+        "EstateTypeId": 1,
+        "EstateLocationId": 2
+    },
+    {
+        
+        "Name": "Luxury Apartment in New Cairo",
+        "Price": 3356965,
+        "SquareMeters": 365,
+        "Description": "A beautiful property for sale in Cairo",
+        "Images": "image/Estate/6.jpg",
+        "NumOfBedrooms": 1,
+        "NumOfBathrooms": 3,
+        "NumOfFloor": 1,
+        "EstateTypeId": 3,
+        "EstateLocationId": 5
+    },
+    {
+        
+        "Name": "Luxury Apartment in New Cairo",
+        "Price": 2881211,
+        "SquareMeters": 354,
+        "Description": "A beautiful property for sale in Cairo",
+        "Images": "image/Estate/7.jpg",
+        "NumOfBedrooms": 3,
+        "NumOfBathrooms": 2,
+        "NumOfFloor": 1,
+        "EstateTypeId": 1,
+        "EstateLocationId": 2
+    },
+    {
+        
+        "Name": "Luxury Apartment in New Cairo",
+        "Price": 1921355,
+        "SquareMeters": 399,
+        "Description": "A beautiful property for sale in Cairo",
+        "Images": "image/Estate/8.jpg",
+        "NumOfBedrooms": 5,
+        "NumOfBathrooms": 2,
+        "NumOfFloor": 4,
+        "EstateTypeId": 2,
+        "EstateLocationId": 1
+    },
+    {
+       
+        "Name": "Luxury Apartment in New Cairo",
+        "Price": 4228106,
+        "SquareMeters": 370,
+        "Description": "A beautiful property for sale in Cairo",
+        "Images": "image/Estate/9.jpg",
+        "NumOfBedrooms": 1,
+        "NumOfBathrooms": 1,
+        "NumOfFloor": 2,
+        "EstateTypeId": 1,
+        "EstateLocationId": 9
+    },
+    {
+      
+        "Name": "Luxury Apartment in New Cairo",
+        "Price": 1122897,
+        "SquareMeters": 309,
+        "Description": "A beautiful property for sale in Cairo",
+        "Images": "image/Estate/10.jpg",
+        "NumOfBedrooms": 5,
+        "NumOfBathrooms": 3,
+        "NumOfFloor": 1,
+        "EstateTypeId": 1,
+        "EstateLocationId": 3
+    }
+]

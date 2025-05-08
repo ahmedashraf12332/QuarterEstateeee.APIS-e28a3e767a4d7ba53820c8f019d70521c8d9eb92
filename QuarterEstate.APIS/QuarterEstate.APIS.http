@@ -1,0 +1,6 @@
+@QuarterEstate.APIS_HostAddress = http://localhost:5247
+
+GET {{QuarterEstate.APIS_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
