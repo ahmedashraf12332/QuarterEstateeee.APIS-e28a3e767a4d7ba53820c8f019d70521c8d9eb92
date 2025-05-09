@@ -16,8 +16,8 @@ namespace Quarter.Core.Specifications.Estatee
         public EstateSpecifications(EstateSpecParams EstateSpec) : base(
             P =>
             (string.IsNullOrEmpty(EstateSpec.Search) || P.Name.ToLower().Contains(EstateSpec.Search))
-       && (!EstateSpec.BrandId.HasValue || EstateSpec.BrandId == P.EstateLocationId)
-        && (!EstateSpec.TypeId.HasValue || EstateSpec.TypeId == P.EstateTypeId))
+       && (!EstateSpec.EstateLocationId.HasValue || EstateSpec.EstateLocationId == P.EstateLocationId)
+        && (!EstateSpec.EstateTypeId.HasValue || EstateSpec.EstateTypeId == P.EstateTypeId))
 
 
 

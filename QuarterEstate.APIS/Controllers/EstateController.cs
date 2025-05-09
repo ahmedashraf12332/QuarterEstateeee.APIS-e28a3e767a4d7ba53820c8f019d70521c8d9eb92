@@ -10,6 +10,7 @@ using Quarter.Core.ServiceContract;
 using Quarter.Core.Specifications.Estatee;
 using Quarter.Repostory.Data.Context;
 using Quarter.Service.Service;
+using Quarter.Service.Service.Estates;
 using QuarterEstate.APIS.Errors;
 
 
@@ -33,11 +34,10 @@ namespace Quarter.APIS.Controllers
 
         [ProducesResponseType(typeof(PaginationResponse<EstateDto>), StatusCodes.Status200OK)]
         [HttpGet]
-       
-        public async Task<ActionResult<PaginationResponse<EstateDto>>> GetAllEstate([FromQuery] EstateSpecParams EstateSpec)
+        
+        public async Task<ActionResult<PaginationResponse<EstateDto>>> GetAllProduct([FromQuery] EstateSpecParams estateSpec)
         {
-            // Adjusted method call to match the signature of IProductService
-            var result = await _EstateService.GetAllEstatesAsync();
+            var result = await _EstateService.GetAllEstatesAsync(estateSpec);
             return Ok(result);
         }
 

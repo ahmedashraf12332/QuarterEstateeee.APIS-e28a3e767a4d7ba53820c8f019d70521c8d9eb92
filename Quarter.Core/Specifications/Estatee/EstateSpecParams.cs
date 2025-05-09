@@ -17,8 +17,8 @@ namespace Quarter.Core.Specifications.Estatee
         }
 
         public string? Sort { get; set; }
-        public int? BrandId { get; set; }
-        public int? TypeId { get; set; }
+        public int? EstateLocationId { get; set; }
+        public int? EstateTypeId { get; set; }
         public int PageSize { get; set; } = 3;
         public int PageIndex { get; set; } = 3;
     }

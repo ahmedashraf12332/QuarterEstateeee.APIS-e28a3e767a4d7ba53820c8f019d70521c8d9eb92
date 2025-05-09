@@ -25,54 +25,29 @@ namespace Quarter.Service.Service.Estates
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<EstateLocationDto>> GetAllBrandsAsync()
+        public async Task<IEnumerable<EstateLocationDto>> GetAllloctionAsync()
         {
             return _mapper.Map<IEnumerable<EstateLocationDto>>(await _unitOfWork.Repository<EstateLocation, int>().GetAllAsync());
         }
 
-        public async Task<PaginationResponse<EstateDto>> GetAllProductsAsync(EstateSpecParams EstateSpec)
-        {
-            var spec = new EstateSpecifications(EstateSpec);
-            var estates = await _unitOfWork.Repository<Estate, int>().GetAllWithSpecAsync(spec);
-            var mappedEstate = _mapper.Map<IEnumerable<EstateDto>>(estates);
-            var countSpec = new EstatetWithCountSpecification(EstateSpec);
-            var count = await _unitOfWork.Repository<Estate, int>().GetCountAsync(countSpec);
+       
 
-            return new PaginationResponse<EstateDto>(EstateSpec.PageSize, EstateSpec.PageIndex, count, mappedEstate);
-        }
-
-        public async Task<IEnumerable<EstateTypeDto>> GetAllTypesAsync()
+        public async Task<IEnumerable<EstateTypeDto>> GetAllTypeAsync()
         {
             return _mapper.Map<IEnumerable<EstateTypeDto>>(await _unitOfWork.Repository<EstateType, int>().GetAllAsync());
         }
 
-        public async Task<EstateDto> GetProductById(int id)
+        public async Task<EstateDto> GetEstateById(int id)
         {
             var spec = new EstateSpecifications(id);
             return _mapper.Map<EstateDto>(await _unitOfWork.Repository<Estate, int>().GetWithSpecAsync(spec));
         }
 
-        // Fix for CS0535: Implementing missing interface members
-        public async Task<IEnumerable<EstateDto>> GetAllEstatesAsync()
-        {
-            var estates = await _unitOfWork.Repository<Estate, int>().GetAllAsync();
-            return _mapper.Map<IEnumerable<EstateDto>>(estates);
-        }
+       
+       
 
-        public async Task<IEnumerable<EstateLocationDto>> GetAllloctionAsync()
-        {
-            return await GetAllBrandsAsync(); // Reusing existing method
-        }
-
-        public async Task<IEnumerable<EstateTypeDto>> GetAllTypeAsync()
-        {
-            return await GetAllTypesAsync(); // Reusing existing method
-        }
-
-        public async Task<EstateDto> GetEstateById(int id)
-        {
-            return await GetProductById(id); // Reusing existing method
-        }
+    
+      
         public async Task<EstateDto> CreateEstateAsync(EstateDto estateDto)
         {
             var estate = new Estate
@@ -116,5 +91,15 @@ namespace Quarter.Service.Service.Estates
             return true;
         }
 
+        public async Task<PaginationResponse<EstateDto>> GetAllEstatesAsync(EstateSpecParams estateSpec)
+        {
+            var spec = new EstateSpecifications(estateSpec);
+            var products = await _unitOfWork.Repository<Estate, int>().GetAllWithSpecAsync(spec);
+            var mappedProducts = _mapper.Map<IEnumerable<EstateDto>>(products);
+            var countSpec = new EstatetWithCountSpecification(estateSpec);
+            var count = await _unitOfWork.Repository<Estate, int>().GetCountAsync(countSpec);
+            return new PaginationResponse<EstateDto>(estateSpec.PageSize, estateSpec.PageIndex, count, mappedProducts);
+
+        }
     }
 }

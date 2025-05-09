@@ -12,8 +12,8 @@ namespace Quarter.Core.Specifications.Estatee
         public EstatetWithCountSpecification(EstateSpecParams productSpec) : base(
            P =>
            (string.IsNullOrEmpty(productSpec.Search) || P.Name.ToLower().Contains(productSpec.Search))
-       && (!productSpec.BrandId.HasValue || productSpec.BrandId == P.EstateLocationId)
-       && (!productSpec.TypeId.HasValue || productSpec.TypeId == P.EstateTypeId))
+       && (!productSpec.EstateLocationId.HasValue || productSpec.EstateLocationId == P.EstateLocationId)
+       && (!productSpec.EstateTypeId.HasValue || productSpec.EstateTypeId == P.EstateTypeId))
         {
 
         }

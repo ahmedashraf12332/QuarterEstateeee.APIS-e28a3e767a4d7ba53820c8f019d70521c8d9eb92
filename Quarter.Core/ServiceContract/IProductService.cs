@@ -1,4 +1,6 @@
 ﻿using Quarter.Core.Dto;
+using Quarter.Core.Helper;
+using Quarter.Core.Specifications.Estatee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace Quarter.Core.ServiceContract
 {
     public interface IProductService
     {
-        Task<IEnumerable<EstateDto>> GetAllEstatesAsync();
+        Task<PaginationResponse<EstateDto>> GetAllEstatesAsync(EstateSpecParams estateSpec);
         Task<IEnumerable<EstateLocationDto>> GetAllloctionAsync();
         Task<IEnumerable<EstateTypeDto>> GetAllTypeAsync();
         Task<EstateDto> GetEstateById(int id);
