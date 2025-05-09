@@ -17,8 +17,8 @@ namespace Quarter.Core.Mapping.Estates
             CreateMap<Estate, EstateDto>()
                 .ForMember(d => d.EstateLocationName, options => options.MapFrom(s => s.EstateLocation.City)).
                 ForMember(d => d.EstateLocationName, options => options.MapFrom(s => s.EstateLocation.Area)).
-                    ForMember(d => d.EstateTypeName, options => options.MapFrom(s => s.EstateType.Name))
-             .ForMember(d => d.Images, options => options.MapFrom(s => $"{configuration["BASEURL"]}{s.Images}"));
+                    ForMember(d => d.EstateTypeName, options => options.MapFrom(s => s.EstateType.Name));
+            
 
             CreateMap<EstateLocation, EstateLocationDto>();
             CreateMap<EstateType, EstateTypeDto>();

@@ -18,7 +18,7 @@ namespace Quarter.Core.Dto
         public string Name { get; set; }
         public int Price { get; set; }  // السعر
         public double SquareMeters { get; set; }  // المساحة بالمتر
-        public string Description { get; set; }  // وصف العقار
+        public string? Description { get; set; }  // وصف العقار
         public string Images { get; set; }  // الصور
         public int NumOfBedrooms { get; set; }  // عدد الغرف
         public int NumOfBathrooms { get; set; } // عدد الحمامات

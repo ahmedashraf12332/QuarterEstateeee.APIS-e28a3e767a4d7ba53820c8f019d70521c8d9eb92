@@ -8,6 +8,7 @@ using Quarter.Core.ServiceContract;
 using Quarter.Repostory;
 using Quarter.Repostory.Data;
 using Quarter.Repostory.Data.Context;
+using Quarter.Service.Service;
 using Quarter.Service.Service.Estates;
 using Store.APIS.Helper;
 
@@ -22,6 +23,7 @@ namespace QuarterEstate.APIS
 
             // Add services to the container.
             builder.Services.AddDependency(builder.Configuration);
+            builder.Services.AddScoped<IBlobService, BlobService>();
 
 
             var app = builder.Build();
