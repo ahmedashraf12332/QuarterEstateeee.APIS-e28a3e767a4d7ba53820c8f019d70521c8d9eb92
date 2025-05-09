@@ -25,14 +25,23 @@ namespace Quarter.Service.Service
             var container = new BlobContainerClient(connectionString, web);
             await container.CreateIfNotExistsAsync(PublicAccessType.Blob);
 
-            var blobClient = container.GetBlobClient(Guid.NewGuid() + Path.GetExtension(file.FileName));
+            var fileName = Path.GetFileName(file.FileName);
+            var blobClient = container.GetBlobClient(fileName);
+
+            var blobHttpHeaders = new BlobHttpHeaders
+            {
+                ContentType = file.ContentType // 👈 ده بيخلي المتصفح يعرف إن دي صورة
+            };
 
             using (var stream = file.OpenReadStream())
             {
-                await blobClient.UploadAsync(stream, overwrite: true);
+                await blobClient.UploadAsync(stream, new BlobUploadOptions
+                {
+                    HttpHeaders = blobHttpHeaders
+                });
             }
 
-            return blobClient.Uri.ToString(); // دا اللي هيتخزن في الداتا بيز
+            return blobClient.Uri.ToString();
         }
     }
 }
