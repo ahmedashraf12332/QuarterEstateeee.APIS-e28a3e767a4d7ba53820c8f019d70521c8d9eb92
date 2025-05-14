@@ -31,7 +31,7 @@ namespace Quarter.APIS.Controllers
     _blobService = blobService;
     _context = context;
 }
-        [Authorize(Roles = "Admin")]
+      
         [ProducesResponseType(typeof(PaginationResponse<EstateDto>), StatusCodes.Status200OK)]
         [HttpGet]
         
@@ -68,6 +68,7 @@ namespace Quarter.APIS.Controllers
             if (result is null) return NotFound(new ApiErrorResponse(404));
             return Ok(result);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddEstate([FromForm] EstateDto dto, List<IFormFile> images)
         {
@@ -100,7 +101,7 @@ namespace Quarter.APIS.Controllers
 
             return Ok(estate);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEstate(int id, [FromBody] EstateDto estateDto)
         {
@@ -108,7 +109,7 @@ namespace Quarter.APIS.Controllers
             if (!updated) return NotFound();
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEstate(int id)
         {

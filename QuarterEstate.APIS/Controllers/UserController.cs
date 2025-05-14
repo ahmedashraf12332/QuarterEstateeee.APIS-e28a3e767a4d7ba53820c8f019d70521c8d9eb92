@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quarter.Core.Dto.Auth;
 using Quarter.Core.Dtos.Auth;
@@ -17,7 +18,7 @@ namespace QuarterEstate.APIS.Controllers
         }
 
         // جلب كل المستخدمين
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
         {
@@ -35,7 +36,7 @@ namespace QuarterEstate.APIS.Controllers
 
             return Ok(result);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(string id)
         {
@@ -46,7 +47,7 @@ namespace QuarterEstate.APIS.Controllers
             return Ok(user);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] RegisterDto dto)
         {
@@ -56,7 +57,7 @@ namespace QuarterEstate.APIS.Controllers
             return Ok(createdUser);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserDto dto)
         {
@@ -67,7 +68,7 @@ namespace QuarterEstate.APIS.Controllers
             return Ok("User updated successfully");
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
