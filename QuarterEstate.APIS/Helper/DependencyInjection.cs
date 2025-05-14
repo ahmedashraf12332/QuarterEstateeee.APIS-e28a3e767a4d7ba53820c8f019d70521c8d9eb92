@@ -109,42 +109,54 @@ namespace Store.APIS.Helper
         
         private static IServiceCollection AddAuthenticationService(this IServiceCollection services, IConfiguration configuration)
         {
-           services.AddScoped(typeof(IAuthenticationService),typeof(AuthenticationService));
+            services.AddScoped(typeof(IAuthenticationService), typeof(AuthenticationService));
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+
 
 
             }
-                ).AddEntityFrameworkStores<StoreIdentityDbContext>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer( options =>
+                ).AddEntityFrameworkStores<StoreIdentityDbContext>()
+                .AddDefaultTokenProviders();
+            services.AddAuthentication(options =>
+            {
+
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }
+                )
+                .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidateAudience = true,
+                        ValidateAudience = false,
                         ValidAudience = configuration["Jwt:Audience"],
                         ValidateIssuer = true,
                         ValidIssuer = configuration["Jwt:Issuer"],
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"] )),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
                         ValidateLifetime = true,
-                        ClockSkew=TimeSpan.FromDays(double.Parse(configuration["Jwt:DurationInDays"]))
+                        ClockSkew = TimeSpan.FromDays(double.Parse(configuration["Jwt:DurationInDays"]))
                     };
 
-                }
-                ).AddJwtBearer("Beaer02", options =>
-                {
 
 
-
-                }
-
-                )
-                .AddCookie("XXX" ,options =>
-                {
 
                 });
-                return services;
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", policy =>
+                    policy.RequireRole("Admin"));
+
+                options.AddPolicy("UserPolicy", policy =>
+                    policy.RequireRole("User"));
+            });
+            return services;
         }
 
     }

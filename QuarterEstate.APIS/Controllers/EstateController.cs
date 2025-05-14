@@ -31,7 +31,7 @@ namespace Quarter.APIS.Controllers
     _blobService = blobService;
     _context = context;
 }
-
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(PaginationResponse<EstateDto>), StatusCodes.Status200OK)]
         [HttpGet]
         
