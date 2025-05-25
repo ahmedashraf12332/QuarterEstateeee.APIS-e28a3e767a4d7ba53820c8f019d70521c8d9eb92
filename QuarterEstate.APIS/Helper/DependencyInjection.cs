@@ -35,7 +35,7 @@ namespace Store.APIS.Helper
             services.AddUserDefinedService();
             services.AddInvalidModelResponseService();
             services.AddAuthenticationService(configuration);
-            
+            services.AddCorsService(configuration);
             return services;
         }
 
@@ -158,6 +158,25 @@ namespace Store.APIS.Helper
             });
             return services;
         }
+        private static IServiceCollection AddCorsService(this IServiceCollection services, IConfiguration configuration)
+        {
+            var allowedOrigins = configuration["Cors:AllowedOrigins"]?.Split(",")
+                                 ?? new[] { "http://localhost:4200", "http://localhost:52156" };
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.WithOrigins(allowedOrigins)
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
+                });
+            });
+
+            return services;
+        }
+
 
     }
 }

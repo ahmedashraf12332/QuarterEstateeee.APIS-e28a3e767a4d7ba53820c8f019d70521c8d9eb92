@@ -49,7 +49,7 @@ namespace Quarter.APIS.Helper
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseCors();
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 
