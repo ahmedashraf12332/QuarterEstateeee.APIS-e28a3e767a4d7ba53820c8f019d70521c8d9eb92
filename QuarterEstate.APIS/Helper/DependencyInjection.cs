@@ -160,8 +160,11 @@ namespace Store.APIS.Helper
         }
         private static IServiceCollection AddCorsService(this IServiceCollection services, IConfiguration configuration)
         {
-            var allowedOrigins = configuration["Cors:AllowedOrigins"]?.Split(",")
-                                 ?? new[] { "http://localhost:4200", "http://localhost:52156" };
+            var allowedOrigins = configuration["Cors:AllowedOrigins"]?
+                         .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                         .Select(origin => origin.Trim())
+                         .ToArray()
+                     ?? new[] { "http://localhost:4200", "http://localhost:52156", "http://localhost:8080", "http://localhost:5000" };
 
             services.AddCors(options =>
             {
