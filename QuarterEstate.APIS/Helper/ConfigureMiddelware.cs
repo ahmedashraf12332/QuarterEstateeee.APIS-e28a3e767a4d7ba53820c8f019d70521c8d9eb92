@@ -44,7 +44,7 @@ namespace Quarter.APIS.Helper
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuarterEstate API V1");
-                c.RoutePrefix = "swagger"; 
+                c.RoutePrefix = "swagger";
             });
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseStaticFiles();
