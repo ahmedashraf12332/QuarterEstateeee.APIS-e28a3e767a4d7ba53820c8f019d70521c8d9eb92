@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Quarter.Core.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Quarter.Core.Entities.Identity
     {
         public string DisplayName { get; set; }
         public Address Address { get; set; }
+        public ICollection<UserFavoriteEstate> FavoriteEstates { get; set; }
     }
 }

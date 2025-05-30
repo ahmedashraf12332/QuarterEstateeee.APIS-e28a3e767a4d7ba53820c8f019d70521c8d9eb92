@@ -17,13 +17,34 @@ namespace Quarter.Repostory.Data.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
+
+            // Apply configurations if you have IEntityTypeConfiguration<>
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            // إعدادات الفيفوريت
+            modelBuilder.Entity<UserFavoriteEstate>()
+                .HasIndex(f => new { f.UserId, f.EstateId })
+                .IsUnique();
+
+            modelBuilder.Entity<UserFavoriteEstate>()
+                .HasOne(f => f.User)
+                .WithMany(u => u.FavoriteEstates)
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<UserFavoriteEstate>()
+                .HasOne(f => f.Estate)
+                .WithMany(e => e.FavoritedBy)
+                .HasForeignKey(f => f.EstateId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
+
         public DbSet<Estate> Estates { get; set; }
         public DbSet<EstateLocation> EstateLocations { get; set; }
 
         public DbSet<EstateType> EstateTypes { get; set; }
+        public DbSet<UserFavoriteEstate> UserFavoriteEstates { get; set; }
 
     }
 }

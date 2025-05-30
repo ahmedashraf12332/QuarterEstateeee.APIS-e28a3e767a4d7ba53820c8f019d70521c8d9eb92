@@ -23,6 +23,7 @@ namespace Quarter.Core.Dto
         public int NumOfBedrooms { get; set; }  // عدد الغرف
         public int NumOfBathrooms { get; set; } // عدد الحمامات
         public int NumOfFloor { get; set; } // عدد طوابق
-        //خواص بتاعتهم موجوده في كونفرج بتاعتهم في روبوستي متنساش
+                                            //خواص بتاعتهم موجوده في كونفرج بتاعتهم في روبوستي متنساش
+       
     }
 }

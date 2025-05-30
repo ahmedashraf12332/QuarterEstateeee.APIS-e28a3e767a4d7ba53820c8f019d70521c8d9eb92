@@ -19,6 +19,7 @@ namespace QuarterEstate.APIS.Controllers
 
         // جلب كل المستخدمين
         [Authorize(Roles = "Admin")]
+        
         [HttpGet]
         public async Task<IActionResult> GetAllUsers([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
         {

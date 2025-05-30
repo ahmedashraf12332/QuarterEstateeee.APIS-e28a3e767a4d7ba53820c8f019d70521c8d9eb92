@@ -12,6 +12,7 @@ using Quarter.Repostory.Data.Context;
 using Quarter.Service.Service;
 using Quarter.Service.Service.Estates;
 using QuarterEstate.APIS.Errors;
+using System.Security.Claims;
 
 
 namespace Quarter.APIS.Controllers
@@ -163,8 +164,149 @@ namespace Quarter.APIS.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-    }
 
+
+        // دالة مساعدة لجلب الـ UserId الحالي من الـ JWT Token
+        // يفضل وضعها في Base Controller أو Helper Class لو هتستخدمها في أكتر من مكان
+        private string GetCurrentUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
+
+        /// <summary>
+        /// 1. جلب جميع العقارات المفضلة للمستخدم الحالي.
+        /// GET: api/Products/favorites
+        /// </summary>
+        /// <returns>قائمة (List) من الـ Estate (أو EstateDto) للعقارات المفضلة.</returns>
+        [HttpGet("favorites")] // ده الـ Route للـ Endpoint: api/Products/favorites
+        [Authorize] // هذا الـ Endpoint يتطلب تسجيل دخول
+        [ProducesResponseType(typeof(IEnumerable<EstateDto>), StatusCodes.Status200OK)] // عشان الـ Swagger
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<IEnumerable<EstateDto>>> GetFavorites()
+        {
+            var userId = GetCurrentUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User not identified."); // المستخدم مش مسجل دخول
+            }
+
+            // استرجاع العقارات المفضلة للمستخدم الحالي
+            // Include الـ Estate عشان نجيب بيانات العقار
+            // Select الـ Estate عشان نرجع العقارات نفسها مش الـ UserFavoriteEstate Object
+            var favorites = await _context.UserFavoriteEstates
+                .Where(f => f.UserId == userId)
+                .Include(f => f.Estate)
+                    .ThenInclude(e => e.EstateType) // تحميل نوع العقار
+                .Include(f => f.Estate.EstateLocation) // تحميل موقع العقار
+                .Select(f => new EstateDto // تحويل لـ EstateDto مباشرة
+                {
+                    Id = f.Estate.Id,
+                    Name = f.Estate.Name,
+                    Price = f.Estate.Price,
+                    SquareMeters = f.Estate.SquareMeters,
+                    Description = f.Estate.Description,
+                    Images = f.Estate.Images,
+                    NumOfBedrooms = f.Estate.NumOfBedrooms,
+                    NumOfBathrooms = f.Estate.NumOfBathrooms,
+                    NumOfFloor = f.Estate.NumOfFloor,
+                    EstateTypeId = f.Estate.EstateTypeId,
+                    EstateTypeName = f.Estate.EstateType != null ? f.Estate.EstateType.Name : null,
+                    EstateLocationId = f.Estate.EstateLocationId,
+                    EstateLocationName = f.Estate.EstateLocation != null ? f.Estate.EstateLocation.Area : null
+                })
+                .ToListAsync();
+
+            return Ok(favorites);
+        }
+
+        /// <summary>
+        /// 2. إضافة عقار للمفضلة للمستخدم الحالي.
+        /// POST: api/Products/favorites/{estateId}
+        /// </summary>
+        /// <param name="estateId">معرف العقار المراد إضافته.</param>
+        /// <returns>حالة العملية.</returns>
+        [HttpPost("favorites/{estateId}")] // ده الـ Route للـ Endpoint: api/Products/favorites/{estateId}
+        [Authorize] // هذا الـ Endpoint يتطلب تسجيل دخول
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)] // لو العقار مش موجود
+        public async Task<IActionResult> AddToFavorites(int estateId)
+        {
+            var userId = GetCurrentUserId();
+
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized("User not identified.");
+
+            // 1. التأكد أن العقار موجود في الداتا بيز
+            var estateExists = await _context.Estates.AnyAsync(e => e.Id == estateId);
+            if (!estateExists)
+            {
+                return NotFound("Estate not found.");
+            }
+
+            // 2. التأكد أن العقار مش موجود بالفعل في مفضلة المستخدم ده
+            var exists = await _context.UserFavoriteEstates
+                .AnyAsync(f => f.UserId == userId && f.EstateId == estateId);
+
+            if (exists)
+                return BadRequest("العقار موجود بالفعل في المفضلة.");
+
+            // 3. إنشاء وإضافة الـ UserFavoriteEstate
+            var favorite = new UserFavoriteEstate
+            {
+                UserId = userId,
+                EstateId = estateId,
+                AddedDate = DateTime.UtcNow
+            };
+
+            _context.UserFavoriteEstates.Add(favorite);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // لو حصل أي خطأ أثناء الحفظ (مثل مشكلة في قاعدة البيانات)
+                return StatusCode(500, $"Error saving favorite: {ex.Message}");
+            }
+
+            return Ok("تمت الإضافة إلى المفضلة.");
+        }
+
+        /// <summary>
+        /// 3. حذف عقار من المفضلة للمستخدم الحالي.
+        /// DELETE: api/Products/favorites/{estateId}
+        /// </summary>
+        /// <param name="estateId">معرف العقار المراد حذفه.</param>
+        /// <returns>حالة العملية.</returns>
+        [HttpDelete("favorites/{estateId}")] // ده الـ Route للـ Endpoint: api/Products/favorites/{estateId}
+        [Authorize] // هذا الـ Endpoint يتطلب تسجيل دخول
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> RemoveFromFavorites(int estateId)
+        {
+            var userId = GetCurrentUserId();
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User not identified.");
+            }
+
+            // البحث عن الـ Favorite Item المحدد
+            var favorite = await _context.UserFavoriteEstates
+                .FirstOrDefaultAsync(f => f.UserId == userId && f.EstateId == estateId);
+
+            if (favorite == null)
+                return NotFound("العقار غير موجود في المفضلة."); // العنصر ده مش موجود أصلاً في مفضلة المستخدم
+
+            _context.UserFavoriteEstates.Remove(favorite);
+            await _context.SaveChangesAsync();
+
+            return Ok("تمت الإزالة من المفضلة.");
+        }
+    }
 
 
 }

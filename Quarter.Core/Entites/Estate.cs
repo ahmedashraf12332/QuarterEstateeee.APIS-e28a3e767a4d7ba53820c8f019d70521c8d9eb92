@@ -22,6 +22,7 @@ namespace Quarter.Core.Entites
         public int NumOfBathrooms { get; set; } // عدد الحمامات
         public int NumOfFloor { get; set; } // عدد طوابق
         //خواص بتاعتهم موجوده في كونفرج بتاعتهم في روبوستي متنساش
+        public ICollection<UserFavoriteEstate> FavoritedBy { get; set; }
     }
 
 }

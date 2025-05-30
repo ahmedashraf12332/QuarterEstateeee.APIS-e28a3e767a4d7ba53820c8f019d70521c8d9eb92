@@ -134,7 +134,7 @@ namespace Store.APIS.Helper
                 {
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidateAudience = false,
+                        ValidateAudience = true,
                         ValidAudience = configuration["Jwt:Audience"],
                         ValidateIssuer = true,
                         ValidIssuer = configuration["Jwt:Issuer"],

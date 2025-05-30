@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
-
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using Quarter.Core.Entities.Identity;
 using Quarter.Core.Services.Contract;
+
 namespace Quarter.Service.Tokens
 {
     public class TokenService : ITokenService
@@ -37,6 +37,9 @@ namespace Quarter.Service.Tokens
             // PhoneNumber
             authClaims.Add(new Claim(ClaimTypes.MobilePhone, user.PhoneNumber ?? "0000000000"));
 
+            // **إضافة الـ Claim الخاص بالـ User ID (المفتاح هنا!)**
+            authClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id)); // أضف هذا السطر
+
             // الأدوار
             var userRoles = await userManager.GetRolesAsync(user);
             foreach (var role in userRoles)
@@ -56,6 +59,5 @@ namespace Quarter.Service.Tokens
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }
