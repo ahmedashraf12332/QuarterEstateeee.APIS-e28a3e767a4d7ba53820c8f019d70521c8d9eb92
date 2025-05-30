@@ -14,10 +14,14 @@ namespace Quarter.Core.Specifications.Estatee
             ApplyIncludes();
         }
         public EstateSpecifications(EstateSpecParams EstateSpec) : base(
-            P =>
-            (string.IsNullOrEmpty(EstateSpec.Search) || P.Name.ToLower().Contains(EstateSpec.Search))
-       && (!EstateSpec.EstateLocationId.HasValue || EstateSpec.EstateLocationId == P.EstateLocationId)
-        && (!EstateSpec.EstateTypeId.HasValue || EstateSpec.EstateTypeId == P.EstateTypeId))
+      P =>
+      (string.IsNullOrEmpty(EstateSpec.Search) || P.Name.ToLower().Contains(EstateSpec.Search)) &&
+      (!EstateSpec.EstateLocationId.HasValue || EstateSpec.EstateLocationId == P.EstateLocationId) &&
+      (!EstateSpec.EstateTypeId.HasValue || EstateSpec.EstateTypeId == P.EstateTypeId) &&
+      (!EstateSpec.NumOfBedrooms.HasValue || EstateSpec.NumOfBedrooms == P.NumOfBedrooms) &&
+      (!EstateSpec.NumOfBathrooms.HasValue || EstateSpec.NumOfBathrooms == P.NumOfBathrooms) &&
+      (!EstateSpec.NumOfFloor.HasValue || EstateSpec.NumOfFloor == P.NumOfFloor))
+
 
 
 

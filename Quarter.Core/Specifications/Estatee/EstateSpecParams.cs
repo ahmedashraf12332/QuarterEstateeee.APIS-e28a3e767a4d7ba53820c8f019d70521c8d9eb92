@@ -21,6 +21,9 @@ namespace Quarter.Core.Specifications.Estatee
         public int? EstateTypeId { get; set; }
         public int PageSize { get; set; } = 3;
         public int PageIndex { get; set; } = 3;
+        public int? NumOfBedrooms { get; set; }  
+        public int? NumOfBathrooms { get; set; } 
+        public int? NumOfFloor { get; set; }      
     }
 }
 
