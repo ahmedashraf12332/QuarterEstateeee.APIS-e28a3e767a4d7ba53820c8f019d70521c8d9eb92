@@ -117,9 +117,56 @@ namespace Quarter.APIS.Controllers
             if (!deleted) return NotFound();
             return NoContent();
         }
+        [HttpPost("EstateLocation")]
+        public async Task<IActionResult> AddEstateLocation([FromBody] EstateLocation estateLocation)
+        {
+            if (string.IsNullOrEmpty(estateLocation.Area))
+                return BadRequest("Area is required");
 
-        
+            _context.EstateLocations.Add(estateLocation);
+            await _context.SaveChangesAsync();
+            return Ok(estateLocation);
+        }
 
+        // حذف Area عن طريق Id
+        [HttpDelete("EstateLocation/{id}")]
+        public async Task<IActionResult> DeleteEstateLocation(int id)
+        {
+            var entity = await _context.EstateLocations.FindAsync(id);
+            if (entity == null)
+                return NotFound();
+
+            _context.EstateLocations.Remove(entity);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+        [HttpPost("EstateType")]
+        public async Task<IActionResult> AddEstateType([FromBody] EstateType estateType)
+        {
+            if (string.IsNullOrEmpty(estateType.Name))
+                return BadRequest("Name is required");
+
+            _context.EstateTypes.Add(estateType);
+            await _context.SaveChangesAsync();
+            return Ok(estateType);
+        }
+
+        // حذف Name عن طريق Id
+        [HttpDelete("EstateType/{id}")]
+        public async Task<IActionResult> DeleteEstateType(int id)
+        {
+            var entity = await _context.EstateTypes.FindAsync(id);
+            if (entity == null)
+                return NotFound();
+
+            _context.EstateTypes.Remove(entity);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
+
+
+
 }
+
 
