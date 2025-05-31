@@ -43,13 +43,21 @@ namespace QuarterEstate.APIS.Controllers
             return Ok("Message sent.");
         }
 
-        [HttpGet("history")]
-        public async Task<IActionResult> GetMessages(string user1Id, string user2Id)
+        [HttpGet("history/{receiverId}")]
+        public async Task<IActionResult> GetMessagesForReceiver(string receiverId)
         {
             var messages = await _context.ChatMessages
-                .Where(m => (m.SenderId == user1Id && m.ReceiverId == user2Id) ||
-                            (m.SenderId == user2Id && m.ReceiverId == user1Id))
+                .Where(m => m.ReceiverId == receiverId) // كل الرسائل اللي المستقبل هو ده
                 .OrderBy(m => m.Timestamp)
+                .Select(m => new
+                {
+                    m.Id,
+                    m.SenderId,
+                    m.ReceiverId,
+                    m.Content,
+                    m.Timestamp,
+                    m.IsRead
+                })
                 .ToListAsync();
 
             return Ok(messages);
