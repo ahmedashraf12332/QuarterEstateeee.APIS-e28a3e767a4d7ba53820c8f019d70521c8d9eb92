@@ -43,8 +43,11 @@ namespace Quarter.Service.Service.User
             if (!result.Succeeded) return null;
             return new UserDto()
             {
+                Id = user.Id,
                 DisplayName = user.DisplayName,
+                UserName = user.UserName,
                 Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
                 Token = await _tokenService.CreateTokenAsync(user, _userManager),
 
             };
