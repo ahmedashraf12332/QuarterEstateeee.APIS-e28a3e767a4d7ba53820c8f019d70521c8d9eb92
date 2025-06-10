@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Quarter.Core.Entities.Identity
 {
-    public class AppUser :IdentityUser
+    public class AppUser : IdentityUser
     {
         public string DisplayName { get; set; }
         public Address Address { get; set; }
         public ICollection<UserFavoriteEstate> FavoriteEstates { get; set; }
+        public Agent? Agent { get; set; }
     }
 }

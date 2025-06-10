@@ -20,5 +20,10 @@ namespace Quarter.Core.Services.Contract
         Task<bool> UpdateUserAsync(string id, UpdateUserDto dto);
         Task<bool> DeleteUserAsync(string id);
         Task<(List<UserDto> users, int totalCount)> GetAllUsersAsync(int pageIndex, int pageSize);
+        Task<bool> ChangeUserRoleAsync(string userId, string newRole);
+        Task<IEnumerable<UserDto>> GetUsersInRoleAsync(string roleName);
+        Task<bool> LinkUserToAgentAsync(string userId, int agentId);
+        Task<UserDto?> GetUserForAgentAsync(int agentId);
     }
 }
+

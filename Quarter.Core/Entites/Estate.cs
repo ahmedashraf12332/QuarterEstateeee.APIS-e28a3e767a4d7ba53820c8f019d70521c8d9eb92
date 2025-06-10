@@ -23,6 +23,12 @@ namespace Quarter.Core.Entites
         public int NumOfFloor { get; set; } // عدد طوابق
         //خواص بتاعتهم موجوده في كونفرج بتاعتهم في روبوستي متنساش
         public ICollection<UserFavoriteEstate> FavoritedBy { get; set; }
+        // 1. خاصية نوع المعاملة
+        public TransactionType TransactionType { get; set; }
+
+        // 2. الربط مع الوكيل العقاري
+        public int AgentId { get; set; } // المفتاح الخارجي
+        public Agent Agent { get; set; } // العلاقة
     }
 
 }

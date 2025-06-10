@@ -22,12 +22,22 @@ namespace Quarter.APIS.Helper
                    var LoggerFactory = service.GetRequiredService<ILoggerFactory>();
             var identitycontext = service.GetRequiredService<StoreIdentityDbContext>();
             var UserManager = service.GetRequiredService<UserManager<AppUser>>();
-
+            var RoleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
             try
             {
                 await context.Database.MigrateAsync();
                 await StoreDbContextSeed.SeedAsync(context);
                 await identitycontext.Database.MigrateAsync();
+                string[] roleNames = { "Admin", "User", "Agent" };
+                foreach (var roleName in roleNames)
+                {
+                    var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                    if (!roleExist)
+                    {
+                        // قم بإنشاء الصلاحية إذا لم تكن موجودة
+                        await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    }
+                }
                 await StoreIdentityDbContextSeed.SeedAppUserAsync(UserManager);
 
             }

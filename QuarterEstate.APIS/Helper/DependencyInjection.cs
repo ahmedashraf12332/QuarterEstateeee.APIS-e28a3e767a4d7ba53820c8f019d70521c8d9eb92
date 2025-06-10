@@ -121,7 +121,8 @@ namespace Store.APIS.Helper
 
             }
                 ).AddEntityFrameworkStores<StoreIdentityDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+             .AddRoles<IdentityRole>();
             services.AddAuthentication(options =>
             {
 

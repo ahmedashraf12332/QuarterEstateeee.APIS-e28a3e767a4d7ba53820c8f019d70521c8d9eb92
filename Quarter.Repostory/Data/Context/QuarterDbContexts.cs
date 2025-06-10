@@ -45,6 +45,6 @@ namespace Quarter.Repostory.Data.Context
 
         public DbSet<EstateType> EstateTypes { get; set; }
         public DbSet<UserFavoriteEstate> UserFavoriteEstates { get; set; }
-
+        public DbSet<Agent> Agents { get; set; }
     }
 }

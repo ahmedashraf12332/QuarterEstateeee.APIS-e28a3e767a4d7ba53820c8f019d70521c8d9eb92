@@ -11,7 +11,7 @@ namespace Quarter.Core.Dto
     {
         public int Id { get; set; }
         public int EstateTypeId { get; set; }  // نوع العقار (شقة، فيلا، إلخ)
-        public string?EstateTypeName { get; set; } // العلاقة مع النوع
+        public string? EstateTypeName { get; set; } // العلاقة مع النوع
 
         public int EstateLocationId { get; set; }  // موقع)
         public string? EstateLocationName { get; set; }  // العلاقة مع الموقع
@@ -24,6 +24,10 @@ namespace Quarter.Core.Dto
         public int NumOfBathrooms { get; set; } // عدد الحمامات
         public int NumOfFloor { get; set; } // عدد طوابق
                                             //خواص بتاعتهم موجوده في كونفرج بتاعتهم في روبوستي متنساش
-       
+        public int TransactionType { get; set; }
+        public string TransactionTypeName { get; set; } // e.g., "For Sale", "For Rent"
+
+        public int? AgentId { get; set; }
+        public string AgentName { get; set; }
     }
 }

@@ -35,9 +35,9 @@ namespace Quarter.APIS.Controllers
       
         [ProducesResponseType(typeof(PaginationResponse<EstateDto>), StatusCodes.Status200OK)]
         [HttpGet]
-        
         public async Task<ActionResult<PaginationResponse<EstateDto>>> GetAllProduct([FromQuery] EstateSpecParams estateSpec)
         {
+            // ملاحظة: يجب تعديل السيرفس الداخلية GetAllEstatesAsync لتشمل بيانات الوكيل ونوع المعاملة
             var result = await _EstateService.GetAllEstatesAsync(estateSpec);
             return Ok(result);
         }
@@ -64,12 +64,13 @@ namespace Quarter.APIS.Controllers
         [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductById(int? id)
         {
+            // ملاحظة: يجب تعديل السيرفس الداخلية GetEstateById لتشمل بيانات الوكيل ونوع المعاملة
             if (id is null) return BadRequest(new ApiErrorResponse(400));
-            var result = await _EstateService.GetEstateById(id.Value); // Fixed service reference
+            var result = await _EstateService.GetEstateById(id.Value);
             if (result is null) return NotFound(new ApiErrorResponse(404));
             return Ok(result);
         }
-        [Authorize(Roles = "Admin")]
+     
         [HttpPost]
         public async Task<IActionResult> AddEstate([FromForm] EstateDto dto, List<IFormFile> images)
         {
@@ -94,13 +95,16 @@ namespace Quarter.APIS.Controllers
                 Images = string.Join(",", imageUrls),
                 NumOfBedrooms = dto.NumOfBedrooms,
                 NumOfBathrooms = dto.NumOfBathrooms,
-                NumOfFloor = dto.NumOfFloor
+                NumOfFloor = dto.NumOfFloor,
+              TransactionType = (Quarter.Core.Entites.TransactionType)dto.TransactionType, // Casting
+                AgentId = dto.AgentId.Value
+
             };
 
             await _context.Estates.AddAsync(estate);
             await _context.SaveChangesAsync();
 
-            return Ok(estate);
+            return Ok("Estate created successfully.");
         }
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
